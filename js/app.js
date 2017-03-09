@@ -30,17 +30,18 @@ var wine_glass = images.push(new imageObject("wine_glass.jpg"));
 
 
 function showImages() {
-  if (count == 15) {
+  if (count === 15) {
     seeTotals();
   } else {
     var container = document.getElementById("images-container");
     container.innerHTML = "";
-    for (var count = 1; count <= 3; count++) {
+    for (var index = 1; index <= 3; index++) {
       var randomIndex = Math.floor(Math.random() * images.length);
       var image = document.createElement("img");
       image.src = "images/"+images[randomIndex].imageSource;
       container.appendChild(image);
       makeImagesClickable();
+      console.log(count);
     }
   }
 };
