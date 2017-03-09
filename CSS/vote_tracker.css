@@ -1,3 +1,9 @@
+html {
+  background-color: #06327a;
+}
+
+
+
 section {
   display: flex;
   justify-content: space-around;

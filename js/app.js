@@ -1,0 +1,93 @@
+var images = [];
+
+
+
+var resultsArray = [];
+
+count = 0;
+
+
+var imageObject = function(imageSource){
+  this.imageSource = imageSource;
+
+};
+
+var bag = images.push(new imageObject("bag.jpg"));
+var banana = images.push(new imageObject("banana.jpg"));
+var boots = images.push(new imageObject("boots.jpg"));
+var chair = images.push(new imageObject("chair.jpg"));
+var cthulhu = images.push(new imageObject("cthulhu.jpg"));
+var dragon = images.push(new imageObject("dragon.jpg"));
+var pen = images.push(new imageObject("pen.jpg"));
+var scissors   = images.push(new imageObject("scissors.jpg"));
+var shark = images.push(new imageObject("shark.jpg"));
+var sweep = images.push(new imageObject("sweep.jpg"));
+var unicorn  = images.push(new imageObject("unicorn.jpg"));
+var usb = images.push(new imageObject("usb.jpg"));
+var water_can = images.push(new imageObject("water_can.jpg"));
+var wine_glass = images.push(new imageObject("wine_glass.jpg"));
+
+
+
+function showImages() {
+  if (count == 15) {
+    seeTotals();
+  } else {
+    var container = document.getElementById("images-container");
+    container.innerHTML = "";
+    for (var count = 1; count <= 3; count++) {
+      var randomIndex = Math.floor(Math.random() * images.length);
+      var image = document.createElement("img");
+      image.src = "images/"+images[randomIndex].imageSource;
+      container.appendChild(image);
+      makeImagesClickable();
+    }
+  }
+};
+
+function makeImagesClickable() {
+  var images = document.getElementsByTagName("img");
+  for (var index = 0; index < images.length; index++) {
+    images[index].addEventListener("click", recordClick);
+  }
+};
+
+function recordClick(event) {
+  var clickedItem = event.target;
+  var itemSource = clickedItem.src;
+  var lastSlash = itemSource.lastIndexOf("/") + 1;
+  itemSource = itemSource.substring(lastSlash);
+  console.log(itemSource + " was clicked.");
+  resultsArray.push(itemSource);
+  count++;
+  showImages();
+
+};
+
+function seeTotals(){
+  var buttonLocation = document.getElementById("doneButton");
+var buttonElement=  document.createElement("button");
+buttonElement.setAttribute("onclick", "tableBuilder()");
+var buttontext =  document.createTextNode("Show Results");
+buttonElement.appendChild(buttontext);
+buttonLocation.appendChild(buttonElement);
+};
+
+
+function tableBuilder(tableLocation, arrayDataBuilder) {
+  var body = document.getElementsByClassName(tableLocation)[0];
+  var resultArray = arrayDataBuilder;
+  var row = document.createElement("tr");
+  for (var index = 0; index < resultArray.length; index++) {
+    var cell = document.createElement("td");
+    var cellText = document.createTextNode(resultArray[index]);
+    cell.appendChild(cellText);
+    row.appendChild(cell);
+  };
+  //row added to end of table body
+  body.appendChild(row);
+}
+
+
+window.addEventListener("load", showImages);
+window.addEventListener("load", makeImagesClickable);
