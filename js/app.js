@@ -32,17 +32,30 @@ var wine_glass = images.push(new imageObject("wine_glass.jpg"));
 function showImages() {
   if (count === 15) {
     seeTotals();
+    count = 0;
   } else {
+    //clear the done button
+    var buttonLocation = document.getElementById("doneButton");
+    buttonLocation.innerHTML = "";
+    //get 3 images
+    var randomImageArray = [];
     var container = document.getElementById("images-container");
     container.innerHTML = "";
     for (var index = 1; index <= 3; index++) {
+      var imageRandomIndex = images[randomIndex];
       var randomIndex = Math.floor(Math.random() * images.length);
       var image = document.createElement("img");
-      image.src = "images/"+images[randomIndex].imageSource;
-      container.appendChild(image);
-      makeImagesClickable();
-      console.log(count);
-    }
+      image.src = "images/"+imagesRandomIndex.imageSource;
+      image.setAttribute("src",image.src);
+      // if (randomImageArray.indexOf(randomIndex) >= 0) {
+      //
+      // }
+      randomImageArray.push(image.src);
+      //    console.log(count);
+
+   container.appendChild();
+    makeImagesClickable();
+}
   }
 };
 
@@ -67,11 +80,11 @@ function recordClick(event) {
 
 function seeTotals(){
   var buttonLocation = document.getElementById("doneButton");
-var buttonElement=  document.createElement("button");
-buttonElement.setAttribute("onclick", "tableBuilder()");
-var buttontext =  document.createTextNode("Show Results");
-buttonElement.appendChild(buttontext);
-buttonLocation.appendChild(buttonElement);
+  var buttonElement=  document.createElement("button");
+  buttonElement.setAttribute("onclick", "tableBuilder()");
+  var buttontext =  document.createTextNode("Show Results");
+  buttonElement.appendChild(buttontext);
+  buttonLocation.appendChild(buttonElement);
 };
 
 
