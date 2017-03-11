@@ -1,7 +1,9 @@
 html {
   background-color: #06327a;
 }
-
+h1,h3 {
+  text-align: center;
+}
 
 
 section {

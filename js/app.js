@@ -45,12 +45,14 @@ function showImages() {
       var imageRandomIndex = images[randomIndex];
       var randomIndex = Math.floor(Math.random() * images.length);
       var image = document.createElement("img");
-      image.src = "images/"+imagesRandomIndex.imageSource;
       image.setAttribute("src",image.src);
+      randomImageArray.push(image.src);
+
+      image.src = "images/"+imageRandomIndex.imageSource;
+
       // if (randomImageArray.indexOf(randomIndex) >= 0) {
       //
       // }
-      randomImageArray.push(image.src);
       //    console.log(count);
 
    container.appendChild();
