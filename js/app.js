@@ -48,14 +48,14 @@ function showImages() {
       image.setAttribute("src",image.src);
       randomImageArray.push(image.src);
 
-      image.src = "images/"+imageRandomIndex.imageSource;
+      //image.src = "images/"+imageRandomIndex.imageSource;
 
       // if (randomImageArray.indexOf(randomIndex) >= 0) {
       //
       // }
       //    console.log(count);
 
-   container.appendChild();
+  // container.appendChild();
     makeImagesClickable();
 }
   }
@@ -104,6 +104,27 @@ function tableBuilder(tableLocation, arrayDataBuilder) {
   body.appendChild(row);
 }
 
+window.onload = function () {
+	var chart = new CanvasJS.Chart("partners", {
+		title:{
+			text: "My First Chart in CanvasJS"
+		},
+		data: [
+		{
+			// Change type to "doughnut", "line", "splineArea", etc.
+			type: "column",
+			dataPoints: [
+				{ label: "apple",  y: 10  },
+				{ label: "orange", y: 15  },
+				{ label: "banana", y: 25  },
+				{ label: "mango",  y: 30  },
+				{ label: "grape",  y: 28  }
+			]
+		}
+		]
+	});
+	chart.render();
+}
 
 window.addEventListener("load", showImages);
 window.addEventListener("load", makeImagesClickable);
