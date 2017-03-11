@@ -1,35 +1,38 @@
+
+
 var images = [];
-
-
 
 var resultsArray = [];
 
 count = 0;
 
 
-var imageObject = function(imageSource){
+var imageObject = function(imageSource, Name, selected){
+  this.imageName = Name;
   this.imageSource = imageSource;
+  this.y = selected;
 
 };
 
-var bag = images.push(new imageObject("bag.jpg"));
-var banana = images.push(new imageObject("banana.jpg"));
-var boots = images.push(new imageObject("boots.jpg"));
-var chair = images.push(new imageObject("chair.jpg"));
-var cthulhu = images.push(new imageObject("cthulhu.jpg"));
-var dragon = images.push(new imageObject("dragon.jpg"));
-var pen = images.push(new imageObject("pen.jpg"));
-var scissors   = images.push(new imageObject("scissors.jpg"));
-var shark = images.push(new imageObject("shark.jpg"));
-var sweep = images.push(new imageObject("sweep.jpg"));
-var unicorn  = images.push(new imageObject("unicorn.jpg"));
-var usb = images.push(new imageObject("usb.jpg"));
-var water_can = images.push(new imageObject("water_can.jpg"));
-var wine_glass = images.push(new imageObject("wine_glass.jpg"));
+var bag = images.push(new imageObject("bag.jpg", "bag"));
+var banana = images.push(new imageObject("banana.jpg", "banana"));
+var boots = images.push(new imageObject("boots.jpg", "boots"));
+var chair = images.push(new imageObject("chair.jpg", "chair"));
+var cthulhu = images.push(new imageObject("cthulhu.jpg","cthulhu"));
+var dragon = images.push(new imageObject("dragon.jpg","dragon"));
+var pen = images.push(new imageObject("pen.jpg","pen"));
+var scissors   = images.push(new imageObject("scissors.jpg", "scissors"));
+var shark = images.push(new imageObject("shark.jpg","shark"));
+var sweep = images.push(new imageObject("sweep.jpg","sweep"));
+var unicorn  = images.push(new imageObject("unicorn.jpg","unicorn"));
+var usb = images.push(new imageObject("usb.jpg","usb"));
+var water_can = images.push(new imageObject("water_can.jpg","water can"));
+var wine_glass = images.push(new imageObject("wine_glass.jpg","wine glass"));
 
 
-
+//shows 3 random images on the screen
 function showImages() {
+// check if there has been 15 selections
   if (count === 15) {
     seeTotals();
     count = 0;
