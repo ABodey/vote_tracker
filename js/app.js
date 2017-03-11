@@ -48,14 +48,14 @@ function showImages() {
       image.setAttribute("src",image.src);
       randomImageArray.push(image.src);
 
-      image.src = "images/"+imageRandomIndex.imageSource;
-
-      // if (randomImageArray.indexOf(randomIndex) >= 0) {
-      //
-      // }
-      //    console.log(count);
-
-   container.appendChild();
+  //     image.src = "images/"+imageRandomIndex.imageSource;
+   //
+  //     // if (randomImageArray.indexOf(randomIndex) >= 0) {
+  //     //
+  //     // }
+  //     //    console.log(count);
+   //
+  //  container.appendChild();
     makeImagesClickable();
 }
   }
