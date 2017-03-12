@@ -32,7 +32,7 @@ var wine_glass = images.push(new imageObject("wine_glass.jpg","wine glass"));
 
 //shows 3 random images on the screen
 function showImages() {
-// check if there has been 15 selections
+  // check if there has been 15 selections
   if (count === 15) {
     seeTotals();
     count = 0;
@@ -45,22 +45,22 @@ function showImages() {
     var container = document.getElementById("images-container");
     container.innerHTML = "";
     for (var index = 1; index <= 3; index++) {
-      var imageRandomIndex = images[randomIndex];
-      var randomIndex = Math.floor(Math.random() * images.length);
+      do{
+        var randomIndex = Math.floor(Math.random() * images.length);
+
+        var randomImage = images[randomIndex];
+        console.log(randomImage.imageSource);
+        console.log(randomImageArray.indexOf(randomImage.imageSource));
+      } while (randomImageArray.indexOf(randomImage.imageSource) >=0);
       var image = document.createElement("img");
-      image.setAttribute("src",image.src);
-      randomImageArray.push(image.src);
+      image.setAttribute("src","images/"+randomImage.imageSource);
 
-      //image.src = "images/"+imageRandomIndex.imageSource;
+      randomImageArray.push(randomImage.imageSource);
 
-      // if (randomImageArray.indexOf(randomIndex) >= 0) {
-      //
-      // }
-      //    console.log(count);
 
-  // container.appendChild();
-    makeImagesClickable();
-}
+      container.appendChild(image);
+      makeImagesClickable();
+    }
   }
 };
 
@@ -80,54 +80,50 @@ function recordClick(event) {
   resultsArray.push(itemSource);
   count++;
   showImages();
-
+  progressBar();
 };
 
 function seeTotals(){
   var buttonLocation = document.getElementById("doneButton");
   var buttonElement=  document.createElement("button");
-  buttonElement.setAttribute("onclick", "tableBuilder()");
+  buttonElement.addEventListener("click",showChart);
   var buttontext =  document.createTextNode("Show Results");
   buttonElement.appendChild(buttontext);
   buttonLocation.appendChild(buttonElement);
 };
 
 
-function tableBuilder(tableLocation, arrayDataBuilder) {
-  var body = document.getElementsByClassName(tableLocation)[0];
-  var resultArray = arrayDataBuilder;
-  var row = document.createElement("tr");
-  for (var index = 0; index < resultArray.length; index++) {
-    var cell = document.createElement("td");
-    var cellText = document.createTextNode(resultArray[index]);
-    cell.appendChild(cellText);
-    row.appendChild(cell);
-  };
-  //row added to end of table body
-  body.appendChild(row);
+
+function progressBar() {
+  var elem = document.getElementById("myBar");
+  var width = Math.floor((resultsArray.length/15)*100);
+  // console.log(width);
+  elem.style.width = width + '%';
 }
 
-window.onload = function () {
-	var chart = new CanvasJS.Chart("partners", {
-		title:{
-			text: "My First Chart in CanvasJS"
-		},
-		data: [
-		{
-			// Change type to "doughnut", "line", "splineArea", etc.
-			type: "column",
-			dataPoints: [
-				{ label: "apple",  y: 10  },
-				{ label: "orange", y: 15  },
-				{ label: "banana", y: 25  },
-				{ label: "mango",  y: 30  },
-				{ label: "grape",  y: 28  }
-			]
-		}
-		]
-	});
-	chart.render();
+
+function showChart () {
+  var chart = new CanvasJS.Chart("partners", {
+    title:{
+      text: "My First Chart in CanvasJS"
+    },
+    data: [
+      {
+        // Change type to "doughnut", "line", "splineArea", etc.
+        type: "doughnut",
+        dataPoints: [
+          { label: "apple",  y: 10  },
+          { label: "orange", y: 15  },
+          { label: "banana", y: 25  },
+          { label: "mango",  y: 30  },
+          { label: "grape",  y: 28  }
+        ]
+      }
+    ]
+  });
+  chart.render();
 }
+
 
 window.addEventListener("load", showImages);
 window.addEventListener("load", makeImagesClickable);
