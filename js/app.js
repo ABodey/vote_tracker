@@ -1,5 +1,4 @@
 
-
 var images = [];
 
 var resultsArray = [];
@@ -7,28 +6,28 @@ var productArray =[];
 count = 0;
 
 
-var imageObject = function(imageSource, Name, selected){
+var imageObject = function(imageSource, Name){
   this.label = Name;
   this.imageSource = imageSource;
-  this.y = selected;
+  this.y = 0;
   // productArray.push(this);
 
 };
 
-var bag = images.push(new imageObject("bag.jpg", "bag", 7));
-var banana = images.push(new imageObject("banana.jpg", "banana", 4));
-var boots = images.push(new imageObject("boots.jpg", "boots", 4));
-var chair = images.push(new imageObject("chair.jpg", "chair"));
-var cthulhu = images.push(new imageObject("cthulhu.jpg","cthulhu"));
-var dragon = images.push(new imageObject("dragon.jpg","dragon"));
-var pen = images.push(new imageObject("pen.jpg","pen"));
-var scissors   = images.push(new imageObject("scissors.jpg", "scissors"));
-var shark = images.push(new imageObject("shark.jpg","shark"));
-var sweep = images.push(new imageObject("sweep.jpg","sweep"));
-var unicorn  = images.push(new imageObject("unicorn.jpg","unicorn"));
-var usb = images.push(new imageObject("usb.jpg","usb"));
-var water_can = images.push(new imageObject("water_can.jpg","water can"));
-var wine_glass = images.push(new imageObject("wine_glass.jpg","wine glass"));
+ images.push(new imageObject("bag.jpg", "bag"));
+ images.push(new imageObject("banana.jpg", "banana"));
+ images.push(new imageObject("boots.jpg", "boots"));
+ images.push(new imageObject("chair.jpg", "chair"));
+ images.push(new imageObject("cthulhu.jpg","cthulhu"));
+ images.push(new imageObject("dragon.jpg","dragon"));
+ images.push(new imageObject("pen.jpg","pen"));
+ images.push(new imageObject("scissors.jpg", "scissors"));
+ images.push(new imageObject("shark.jpg","shark"));
+ images.push(new imageObject("sweep.jpg","sweep"));
+ images.push(new imageObject("unicorn.jpg","unicorn"));
+ images.push(new imageObject("usb.jpg","usb"));
+ images.push(new imageObject("water_can.jpg","water can"));
+ images.push(new imageObject("wine_glass.jpg","wine glass"));
 
 
 //shows 3 random images on the screen
@@ -82,11 +81,19 @@ function recordClick(event) {
   count++;
   showImages();
   progressBar();
+for (var index = 0; index < images.length; index++) {
+  if ((images[index].imageSource) === itemSource) {
+images[index].y ++;
+  }
+};
+
+
 };
 
 function seeTotals(){
   var buttonLocation = document.getElementById("doneButton");
   var buttonElement=  document.createElement("button");
+  console.log(images);
   buttonElement.addEventListener("click",showChart);
   var buttontext =  document.createTextNode("Show Results");
   buttonElement.appendChild(buttontext);
@@ -95,28 +102,38 @@ function seeTotals(){
 
 
 
-function progressBar() {
-  if (count === 15) {
-    var elem = document.getElementById("myBar");
-    elem.setAttribute("style", "width: 1%" );
-    count = 0;
-  } else {
-  var elem = document.getElementById("myBar");
-  var width = Math.floor((resultsArray.length/15)*100);
-  // console.log(width);
-  elem.style.width = width + '%';
-  console.log(count);
-}
-};
 
-function showChart () {
-  var chart = new CanvasJS.Chart("partners", {
+function progressBar() {
+    var elem = document.getElementById("myBar");
+    var width = (Math.floor((resultsArray.length/15)*100)+1);
+    console.log(width);
+    var id = setTimeout(frame, 250);
+
+    function frame() {
+        if (width >= 100) {
+    width -= 100;
+    elem.style.width = width + '%';
+    elem.innerHTML = width * 1 + '%';
+        } else {
+            elem.style.width = width + '%';
+            elem.innerHTML = width * 1 + '%';
+        }
+    }
+}
+
+
+function showChart() {
+  var chart = new CanvasJS.Chart("chartContainer", {
+    // theme: "theme2",//theme1
     title:{
       text: "Products that were picked"
+      // fontColor: "blue",
+      // fontFamily: "Optima"
     },
+    animationEnabled: false,   // change to true
     data: [
       {
-        // Change type to "doughnut", "line", "splineArea", etc.
+        // Change type to "bar", "area", "spline", "pie",etc.
         type: "doughnut",
         dataPoints: images
       }
