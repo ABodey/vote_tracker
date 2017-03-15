@@ -1,6 +1,7 @@
 html {
-  background-color: #06327a;
+  background-color: #8fb7f7;
 }
+
 h1,h3 {
   text-align: center;
 }
@@ -21,10 +22,15 @@ img {
     border-radius: 15px;
     background-color: grey;
 }
+
 #myBar {
     width: 1%;
     height: 30px;
     background-color: green;
     border-radius: 15px;
     transition: width 1s;
+}
+
+#partners {
+  display: flex;
 }

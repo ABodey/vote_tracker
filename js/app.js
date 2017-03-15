@@ -3,20 +3,21 @@
 var images = [];
 
 var resultsArray = [];
-
+var productArray =[];
 count = 0;
 
 
 var imageObject = function(imageSource, Name, selected){
-  this.imageName = Name;
+  this.label = Name;
   this.imageSource = imageSource;
   this.y = selected;
+  // productArray.push(this);
 
 };
 
-var bag = images.push(new imageObject("bag.jpg", "bag"));
-var banana = images.push(new imageObject("banana.jpg", "banana"));
-var boots = images.push(new imageObject("boots.jpg", "boots"));
+var bag = images.push(new imageObject("bag.jpg", "bag", 7));
+var banana = images.push(new imageObject("banana.jpg", "banana", 4));
+var boots = images.push(new imageObject("boots.jpg", "boots", 4));
 var chair = images.push(new imageObject("chair.jpg", "chair"));
 var cthulhu = images.push(new imageObject("cthulhu.jpg","cthulhu"));
 var dragon = images.push(new imageObject("dragon.jpg","dragon"));
@@ -105,19 +106,13 @@ function progressBar() {
 function showChart () {
   var chart = new CanvasJS.Chart("partners", {
     title:{
-      text: "My First Chart in CanvasJS"
+      text: "Products that were picked"
     },
     data: [
       {
         // Change type to "doughnut", "line", "splineArea", etc.
         type: "doughnut",
-        dataPoints: [
-          { label: "apple",  y: 10  },
-          { label: "orange", y: 15  },
-          { label: "banana", y: 25  },
-          { label: "mango",  y: 30  },
-          { label: "grape",  y: 28  }
-        ]
+        dataPoints: images
       }
     ]
   });
