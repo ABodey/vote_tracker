@@ -96,12 +96,18 @@ function seeTotals(){
 
 
 function progressBar() {
+  if (count === 15) {
+    var elem = document.getElementById("myBar");
+    elem.setAttribute("style", "width: 1%" );
+    count = 0;
+  } else {
   var elem = document.getElementById("myBar");
   var width = Math.floor((resultsArray.length/15)*100);
   // console.log(width);
   elem.style.width = width + '%';
+  console.log(count);
 }
-
+};
 
 function showChart () {
   var chart = new CanvasJS.Chart("partners", {
