@@ -1,17 +1,15 @@
-
 var images = [];
-
 var resultsArray = [];
 var productArray =[];
-count = 0;
+var count = 0;
+var total = 15;
+var chart = null;
 
-
-var imageObject = function(imageSource, Name){
+var imageObject = function(imageSource, Name) {
   this.label = Name;
   this.imageSource = imageSource;
   this.y = 0;
   // productArray.push(this);
-
 };
 
  images.push(new imageObject("bag.jpg", "bag"));
@@ -35,11 +33,10 @@ function showImages() {
   // check if there has been 15 selections
   if (count === 15) {
     seeTotals();
-    count = 0;
   } else {
     //clear the done button
-    var buttonLocation = document.getElementById("doneButton");
-    buttonLocation.innerHTML = "";
+    // var buttonLocation = document.getElementById("doneButton");
+    // buttonLocation.innerHTML = "";
     //get 3 images
     var randomImageArray = [];
     var container = document.getElementById("images-container");
@@ -56,7 +53,6 @@ function showImages() {
       image.setAttribute("src","images/"+randomImage.imageSource);
 
       randomImageArray.push(randomImage.imageSource);
-
 
       container.appendChild(image);
       makeImagesClickable();
@@ -81,13 +77,11 @@ function recordClick(event) {
   count++;
   showImages();
   progressBar();
-for (var index = 0; index < images.length; index++) {
-  if ((images[index].imageSource) === itemSource) {
-images[index].y ++;
+  for (var index = 0; index < images.length; index++) {
+    if ((images[index].imageSource) === itemSource) {
+      images[index].y ++;
+    }
   }
-};
-
-
 };
 
 function seeTotals(){
@@ -98,32 +92,29 @@ function seeTotals(){
   var buttontext =  document.createTextNode("Show Results");
   buttonElement.appendChild(buttontext);
   buttonLocation.appendChild(buttonElement);
+  // add event listener to update chart, but only after chart has been shown
+  window.addEventListener("click", reRenderChart);
 };
 
-
-
-
-function progressBar() {
-    var elem = document.getElementById("myBar");
-    var width = (Math.floor((resultsArray.length/15)*100)+1);
-    console.log(width);
-    var id = setTimeout(frame, 250);
-
-    function frame() {
-        if (width >= 100) {
-    width -= 100;
-    elem.style.width = width + '%';
-    elem.innerHTML = width * 1 + '%';
-        } else {
-            elem.style.width = width + '%';
-            elem.innerHTML = width * 1 + '%';
-        }
-    }
+function reRenderChart() {
+  chart.render();
 }
 
+function progressBar() {
+  console.log("count: " + count);
+  var elem = document.getElementById("myBar");
+  // if finished first 15 questions, increase by 15
+  if (count === total) {
+    total += 15;
+  }
+  var width = (Math.floor((resultsArray.length/total)*100)+1);
+  console.log(width);
+  elem.style.width = width + '%';
+  elem.innerHTML = width * 1 + '%';
+}
 
 function showChart() {
-  var chart = new CanvasJS.Chart("chartContainer", {
+  chart = new CanvasJS.Chart("chartContainer", {
     // theme: "theme2",//theme1
     title:{
       text: "Products that were picked"
@@ -141,7 +132,6 @@ function showChart() {
   });
   chart.render();
 }
-
 
 window.addEventListener("load", showImages);
 window.addEventListener("load", makeImagesClickable);
