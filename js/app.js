@@ -15,45 +15,48 @@ var imageObject = function(imageSource, Name) {
 function getData(){
   // var count = 0;
 
-count = parseInt(localStorage.getItem("count", count));
+  count = parseInt(localStorage.getItem("count", count));
 
 
-if (count === 0) {
-  var images = [];
+  if (count === 0) {
 
- images.push(new imageObject("bag.jpg", "bag"));
- images.push(new imageObject("banana.jpg", "banana"));
- images.push(new imageObject("boots.jpg", "boots"));
- images.push(new imageObject("chair.jpg", "chair"));
- images.push(new imageObject("cthulhu.jpg","cthulhu"));
- images.push(new imageObject("dragon.jpg","dragon"));
- images.push(new imageObject("pen.jpg","pen"));
- images.push(new imageObject("scissors.jpg", "scissors"));
- images.push(new imageObject("shark.jpg","shark"));
- images.push(new imageObject("sweep.jpg","sweep"));
- images.push(new imageObject("unicorn.jpg","unicorn"));
- images.push(new imageObject("usb.jpg","usb"));
- images.push(new imageObject("water_can.jpg","water can"));
- images.push(new imageObject("wine_glass.jpg","wine glass"));
- } else if (count >= 0) {
-   var images = [];
+    images.push(new imageObject("bag.jpg", "bag"));
+    images.push(new imageObject("banana.jpg", "banana"));
+    images.push(new imageObject("boots.jpg", "boots"));
+    images.push(new imageObject("chair.jpg", "chair"));
+    images.push(new imageObject("cthulhu.jpg","cthulhu"));
+    images.push(new imageObject("dragon.jpg","dragon"));
+    images.push(new imageObject("pen.jpg","pen"));
+    images.push(new imageObject("scissors.jpg", "scissors"));
+    images.push(new imageObject("shark.jpg","shark"));
+    images.push(new imageObject("sweep.jpg","sweep"));
+    images.push(new imageObject("unicorn.jpg","unicorn"));
+    images.push(new imageObject("usb.jpg","usb"));
+    images.push(new imageObject("water_can.jpg","water can"));
+    images.push(new imageObject("wine_glass.jpg","wine glass"));
+  } else if (count >= 0) {
 
-  images = JSON.parse(localStorage.getItem("images"));
- }
-showImages();
+    images = JSON.parse(localStorage.getItem("images"));
+  }
+  countShowImages();
+  progressBar();
 };
+
+function countShowImages(){
+  // check if there has been 15 selections
+  if (count >= 15) {
+    seeTotals();
+    showImages();
+  } else {
+showImages();
+}
+
+
 
 
 
 //shows 3 random images on the screen
 function showImages() {
-  // check if there has been 15 selections
-  if (count === 15) {
-    seeTotals();
-  } else {
-    //clear the done button
-    // var buttonLocation = document.getElementById("doneButton");
-    // buttonLocation.innerHTML = "";
     //get 3 images
     var randomImageArray = [];
     var container = document.getElementById("images-container");
@@ -92,7 +95,7 @@ function recordClick(event) {
   console.log(itemSource + " was clicked.");
   resultsArray.push(itemSource);
   count++;
-  showImages();
+  countShowImages();
   progressBar();
   for (var index = 0; index < images.length; index++) {
     if ((images[index].imageSource) === itemSource) {
@@ -123,10 +126,10 @@ function progressBar() {
   console.log("count: " + count);
   var elem = document.getElementById("myBar");
   // if finished first 15 questions, increase by 15
-  if (count === total) {
-    total += 15;
+  if (count >= total) {
+  total = ((Math.ceil(count/total))*15);
   }
-  var width = (Math.floor((resultsArray.length/total)*100)+1);
+  var width = (Math.floor((count/total)*100)+1);
   console.log(width);
   elem.style.width = width + '%';
   elem.innerHTML = width * 1 + '%';
