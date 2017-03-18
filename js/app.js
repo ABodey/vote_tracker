@@ -82,6 +82,8 @@ function recordClick(event) {
       images[index].y ++;
     }
   }
+  localStorage.setItem("images", JSON.stringify(images));
+  localStorage.setItem("count", count);
 };
 
 function seeTotals(){
