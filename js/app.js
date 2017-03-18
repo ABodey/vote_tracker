@@ -12,6 +12,15 @@ var imageObject = function(imageSource, Name) {
   // productArray.push(this);
 };
 
+function getData(){
+  // var count = 0;
+
+count = parseInt(localStorage.getItem("count", count));
+
+
+if (count === 0) {
+  var images = [];
+
  images.push(new imageObject("bag.jpg", "bag"));
  images.push(new imageObject("banana.jpg", "banana"));
  images.push(new imageObject("boots.jpg", "boots"));
@@ -26,6 +35,14 @@ var imageObject = function(imageSource, Name) {
  images.push(new imageObject("usb.jpg","usb"));
  images.push(new imageObject("water_can.jpg","water can"));
  images.push(new imageObject("wine_glass.jpg","wine glass"));
+ } else if (count >= 0) {
+   var images = [];
+
+  images = JSON.parse(localStorage.getItem("images"));
+ }
+showImages();
+};
+
 
 
 //shows 3 random images on the screen
@@ -135,5 +152,5 @@ function showChart() {
   chart.render();
 }
 
-window.addEventListener("load", showImages);
+window.addEventListener("load", getData);
 window.addEventListener("load", makeImagesClickable);
