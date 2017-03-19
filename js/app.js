@@ -4,6 +4,7 @@ var productArray =[];
 var count = 0;
 var total = 15;
 var chart = null;
+var buttonExists = false;
 
 var imageObject = function(imageSource, Name) {
   this.label = Name;
@@ -16,7 +17,9 @@ function getData(){
   // var count = 0;
 
   count = parseInt(localStorage.getItem("count", count));
-
+if (isNaN(count)) {
+  count=0  
+}
 
   if (count === 0) {
 
@@ -107,6 +110,10 @@ function recordClick(event) {
 };
 
 function seeTotals(){
+
+  if (buttonExists === false) {
+
+  buttonExists = true;
   var buttonLocation = document.getElementById("doneButton");
   var buttonElement=  document.createElement("button");
   console.log(images);
@@ -114,8 +121,9 @@ function seeTotals(){
   var buttontext =  document.createTextNode("Show Results");
   buttonElement.appendChild(buttontext);
   buttonLocation.appendChild(buttonElement);
-  // add event listener to update chart, but only after chart has been shown
+    // add event listener to update chart, but only after chart has been shown
   window.addEventListener("click", reRenderChart);
+}
 };
 
 function reRenderChart() {

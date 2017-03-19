@@ -1,0 +1,19 @@
+html {
+  background-color: #8fb7f7;
+}
+
+
+
+
+
+img:hover { transform: scale(1.1); }
+
+#myBar {
+    width: 1%;
+    height: 30px;
+    background-color: green;
+    border-radius: 15px;
+    transition: width 1s;
+    text-align: center;
+    vertical-align: middle;
+}
