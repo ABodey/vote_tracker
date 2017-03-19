@@ -1,63 +1,85 @@
 var images = [];
-
-
-
 var resultsArray = [];
+var productArray =[];
+var count = 0;
+var total = 15;
+var chart = null;
+var buttonExists = false;
 
-count = 0;
-
-
-var imageObject = function(imageSource){
+var imageObject = function(imageSource, Name) {
+  this.label = Name;
   this.imageSource = imageSource;
-
+  this.y = 0;
+  // productArray.push(this);
 };
 
-var bag = images.push(new imageObject("bag.jpg"));
-var banana = images.push(new imageObject("banana.jpg"));
-var boots = images.push(new imageObject("boots.jpg"));
-var chair = images.push(new imageObject("chair.jpg"));
-var cthulhu = images.push(new imageObject("cthulhu.jpg"));
-var dragon = images.push(new imageObject("dragon.jpg"));
-var pen = images.push(new imageObject("pen.jpg"));
-var scissors   = images.push(new imageObject("scissors.jpg"));
-var shark = images.push(new imageObject("shark.jpg"));
-var sweep = images.push(new imageObject("sweep.jpg"));
-var unicorn  = images.push(new imageObject("unicorn.jpg"));
-var usb = images.push(new imageObject("usb.jpg"));
-var water_can = images.push(new imageObject("water_can.jpg"));
-var wine_glass = images.push(new imageObject("wine_glass.jpg"));
+function getData(){
+  // var count = 0;
 
+  count = parseInt(localStorage.getItem("count", count));
+if (isNaN(count)) {
+  count=0  
+}
 
+  if (count === 0) {
 
-function showImages() {
-  if (count === 15) {
+    images.push(new imageObject("bag.jpg", "bag"));
+    images.push(new imageObject("banana.jpg", "banana"));
+    images.push(new imageObject("boots.jpg", "boots"));
+    images.push(new imageObject("chair.jpg", "chair"));
+    images.push(new imageObject("cthulhu.jpg","cthulhu"));
+    images.push(new imageObject("dragon.jpg","dragon"));
+    images.push(new imageObject("pen.jpg","pen"));
+    images.push(new imageObject("scissors.jpg", "scissors"));
+    images.push(new imageObject("shark.jpg","shark"));
+    images.push(new imageObject("sweep.jpg","sweep"));
+    images.push(new imageObject("unicorn.jpg","unicorn"));
+    images.push(new imageObject("usb.jpg","usb"));
+    images.push(new imageObject("water_can.jpg","water can"));
+    images.push(new imageObject("wine_glass.jpg","wine glass"));
+  } else if (count >= 0) {
+
+    images = JSON.parse(localStorage.getItem("images"));
+  }
+  countShowImages();
+  progressBar();
+};
+
+function countShowImages(){
+  // check if there has been 15 selections
+  if (count >= 15) {
     seeTotals();
-    count = 0;
+    showImages();
   } else {
-    //clear the done button
-    var buttonLocation = document.getElementById("doneButton");
-    buttonLocation.innerHTML = "";
+showImages();
+}
+
+
+
+
+
+//shows 3 random images on the screen
+function showImages() {
     //get 3 images
     var randomImageArray = [];
     var container = document.getElementById("images-container");
     container.innerHTML = "";
     for (var index = 1; index <= 3; index++) {
-      var imageRandomIndex = images[randomIndex];
-      var randomIndex = Math.floor(Math.random() * images.length);
+      do{
+        var randomIndex = Math.floor(Math.random() * images.length);
+
+        var randomImage = images[randomIndex];
+        console.log(randomImage.imageSource);
+        console.log(randomImageArray.indexOf(randomImage.imageSource));
+      } while (randomImageArray.indexOf(randomImage.imageSource) >=0);
       var image = document.createElement("img");
-      image.setAttribute("src",image.src);
-      randomImageArray.push(image.src);
+      image.setAttribute("src","images/"+randomImage.imageSource);
 
-      //image.src = "images/"+imageRandomIndex.imageSource;
+      randomImageArray.push(randomImage.imageSource);
 
-      // if (randomImageArray.indexOf(randomIndex) >= 0) {
-      //
-      // }
-      //    console.log(count);
-
-  // container.appendChild();
-    makeImagesClickable();
-}
+      container.appendChild(image);
+      makeImagesClickable();
+    }
   }
 };
 
@@ -76,55 +98,70 @@ function recordClick(event) {
   console.log(itemSource + " was clicked.");
   resultsArray.push(itemSource);
   count++;
-  showImages();
-
+  countShowImages();
+  progressBar();
+  for (var index = 0; index < images.length; index++) {
+    if ((images[index].imageSource) === itemSource) {
+      images[index].y ++;
+    }
+  }
+  localStorage.setItem("images", JSON.stringify(images));
+  localStorage.setItem("count", count);
 };
 
 function seeTotals(){
+
+  if (buttonExists === false) {
+
+  buttonExists = true;
   var buttonLocation = document.getElementById("doneButton");
   var buttonElement=  document.createElement("button");
-  buttonElement.setAttribute("onclick", "tableBuilder()");
+  console.log(images);
+  buttonElement.addEventListener("click",showChart);
   var buttontext =  document.createTextNode("Show Results");
   buttonElement.appendChild(buttontext);
   buttonLocation.appendChild(buttonElement);
+    // add event listener to update chart, but only after chart has been shown
+  window.addEventListener("click", reRenderChart);
+}
 };
 
-
-function tableBuilder(tableLocation, arrayDataBuilder) {
-  var body = document.getElementsByClassName(tableLocation)[0];
-  var resultArray = arrayDataBuilder;
-  var row = document.createElement("tr");
-  for (var index = 0; index < resultArray.length; index++) {
-    var cell = document.createElement("td");
-    var cellText = document.createTextNode(resultArray[index]);
-    cell.appendChild(cellText);
-    row.appendChild(cell);
-  };
-  //row added to end of table body
-  body.appendChild(row);
+function reRenderChart() {
+  chart.render();
 }
 
-window.onload = function () {
-	var chart = new CanvasJS.Chart("partners", {
-		title:{
-			text: "My First Chart in CanvasJS"
-		},
-		data: [
-		{
-			// Change type to "doughnut", "line", "splineArea", etc.
-			type: "column",
-			dataPoints: [
-				{ label: "apple",  y: 10  },
-				{ label: "orange", y: 15  },
-				{ label: "banana", y: 25  },
-				{ label: "mango",  y: 30  },
-				{ label: "grape",  y: 28  }
-			]
-		}
-		]
-	});
-	chart.render();
+function progressBar() {
+  console.log("count: " + count);
+  var elem = document.getElementById("myBar");
+  // if finished first 15 questions, increase by 15
+  if (count >= total) {
+  total = ((Math.ceil(count/total))*15);
+  }
+  var width = (Math.floor((count/total)*100)+1);
+  console.log(width);
+  elem.style.width = width + '%';
+  elem.innerHTML = width * 1 + '%';
 }
 
-window.addEventListener("load", showImages);
+function showChart() {
+  chart = new CanvasJS.Chart("chartContainer", {
+    // theme: "theme2",//theme1
+    title:{
+      text: "Products that were picked"
+      // fontColor: "blue",
+      // fontFamily: "Optima"
+    },
+    animationEnabled: false,   // change to true
+    data: [
+      {
+        // Change type to "bar", "area", "spline", "pie",etc.
+        type: "doughnut",
+        dataPoints: images
+      }
+    ]
+  });
+  chart.render();
+}
+
+window.addEventListener("load", getData);
 window.addEventListener("load", makeImagesClickable);
